@@ -1,5 +1,6 @@
 package com.devsuperior.dscatalog.resources;
 
+import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,19 +17,20 @@ public class CategoryResource {
     private CategoryService service;
 
     @GetMapping
-    public ResponseEntity<List<Category>> findAll(){
-        List<Category> list = service.findAll();
+    public ResponseEntity<List<CategoryDTO>> findAll(){
+        List<CategoryDTO> list = service.findAll();
         return ResponseEntity.ok(list);
     }
 
     @GetMapping(value = "/{id}")
-    public Category findById(@PathVariable Long id){
-        return service.findById(id);
+    public ResponseEntity<CategoryDTO> findById(@PathVariable Long id) {
+        CategoryDTO dto =  service.findById(id);
+        return  ResponseEntity.ok().body(dto);
     }
 
     @PutMapping
-    public Category save(@RequestBody Category category){
-        Category newCategory = service.save(category);
+    public CategoryDTO save(@RequestBody Category category){
+        CategoryDTO newCategory = service.save(category);
         return newCategory;
     }
 
