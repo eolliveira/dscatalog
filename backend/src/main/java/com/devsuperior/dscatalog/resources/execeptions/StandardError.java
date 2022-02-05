@@ -1,8 +1,10 @@
 package com.devsuperior.dscatalog.resources.execeptions;
 
+import java.time.Instant;
+
 public class StandardError {
-  private String timestamp;
-  private String status;
+  private Instant timestamp;
+  private Integer status;
   private String error;
   private String message;
   private String path;
@@ -10,19 +12,19 @@ public class StandardError {
   public StandardError() {
   }
 
-  public String getTimestamp() {
+  public Instant getTimestamp() {
     return timestamp;
   }
 
-  public void setTimestamp(String timestamp) {
+  public void setTimestamp(Instant timestamp) {
     this.timestamp = timestamp;
   }
 
-  public String getStatus() {
+  public Integer getStatus() {
     return status;
   }
 
-  public void setStatus(String status) {
+  public void setStatus(Integer status) {
     this.status = status;
   }
 
