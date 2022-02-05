@@ -2,8 +2,10 @@ package com.devsuperior.dscatalog.services;
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
+import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -50,6 +52,20 @@ public class CategoryService {
         }
         catch (EntityNotFoundException e){
           throw new ResourcesNotFoundException("resource Id:" + id + " not found");
+        }
+    }
+
+    @Transactional
+    public void delete(Long id) {
+        try {
+            Category category = repository.getById(id);
+            repository.delete(category);
+        }
+        catch (EntityNotFoundException e){
+            throw new ResourcesNotFoundException("resource Id:" + id + " not found");
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataBaseException("Database integrity violation");
         }
     }
 }

@@ -1,7 +1,6 @@
 package com.devsuperior.dscatalog.resources;
 
 import com.devsuperior.dscatalog.dto.CategoryDTO;
-import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.services.CategoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -45,4 +44,10 @@ public class CategoryResource {
         return ResponseEntity.ok().body(dto);
     }
 
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        //codHttp 204 - void(sem retorno no corpo da req)
+        return ResponseEntity.noContent().build();
+    }
 }
