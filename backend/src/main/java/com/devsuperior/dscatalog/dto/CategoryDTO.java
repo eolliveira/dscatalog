@@ -9,6 +9,8 @@ public class CategoryDTO implements Serializable {
     private Long id;
     private String name;
 
+    public CategoryDTO(){}
+
     public CategoryDTO(Category category) {
         this.id = category.getId();
         this.name = category.getName();

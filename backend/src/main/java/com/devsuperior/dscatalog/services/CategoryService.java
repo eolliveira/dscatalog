@@ -20,7 +20,8 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public List<CategoryDTO> findAll(){
         List<Category> list = repository.findAll();
-        return list.stream().map(c -> new CategoryDTO(c)).collect(Collectors.toList());
+        return list.stream().map(CategoryDTO::new).collect(Collectors.toList());
+        //return list.stream().map(c -> new CategoryDTO(c)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
@@ -31,8 +32,11 @@ public class CategoryService {
     }
 
     @Transactional
-    public CategoryDTO save(Category category){
-        Category newCategory = repository.saveAndFlush(category);
-        return new CategoryDTO(newCategory);
+    public CategoryDTO insert(CategoryDTO dto){
+        Category category = new Category();
+        category.setName(dto.getName());
+        category = repository.save(category);
+        return new CategoryDTO(category);
     }
+
 }
