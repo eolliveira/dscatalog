@@ -45,7 +45,7 @@ public class CategoryService {
     @Transactional
     public CategoryDTO update(Long id, CategoryDTO dto) {
         try {
-            Category category = repository.getById(id);
+            Category category = repository.getOne(id);
             category.setName(dto.getName());
             category = repository.save(category);
             return new CategoryDTO(category);
@@ -58,7 +58,7 @@ public class CategoryService {
     @Transactional
     public void delete(Long id) {
         try {
-            Category category = repository.getById(id);
+            Category category = repository.getOne(id);
             repository.delete(category);
         }
         catch (EntityNotFoundException e){
