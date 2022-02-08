@@ -22,7 +22,7 @@ public class ProductResource {
     @GetMapping
     public ResponseEntity<Page<ProductDTO>> findAll(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "linesPerPage", defaultValue = "40") Integer linesPerPage,
+            @RequestParam(value = "linesPerPage", defaultValue = "15") Integer linesPerPage,
             @RequestParam(value = "direction", defaultValue = "ASC") String direction,
             @RequestParam(value = "orderBy", defaultValue = "name") String orderBy ) {
 
@@ -43,6 +43,12 @@ public class ProductResource {
                 .buildAndExpand(dto.getId()).toUri();
         dto = service.insert(dto);
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @PutMapping(value = "/{id}")
+    public ResponseEntity<ProductDTO> update(@PathVariable Long id, @RequestBody ProductDTO dto){
+        dto = service.update(id, dto);
+        return ResponseEntity.ok().body(dto);
     }
 
     @DeleteMapping(value = "/{id}")
