@@ -58,7 +58,7 @@ public class Category implements Serializable {
         return updatedAt;
     }
 
-    //sera executado antes de salvar
+    //sera executadO antes de salvar
     @PrePersist
     public void prePersist() {
         createdAt = Instant.now();

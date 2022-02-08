@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
-
 public class ProductDTO implements Serializable {
 
     private Long id;
@@ -19,7 +18,7 @@ public class ProductDTO implements Serializable {
     private String imgUrl;
     private Instant date;
 
-    private List<CategoryDTO> categories = new ArrayList<>();
+    private final List<CategoryDTO> categories = new ArrayList<>();
 
     public ProductDTO () {}
 
@@ -105,7 +104,4 @@ public class ProductDTO implements Serializable {
         return categories;
     }
 
-    public void setCategories(List<CategoryDTO> categories) {
-        this.categories = categories;
-    }
 }
