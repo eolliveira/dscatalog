@@ -1,6 +1,5 @@
 package com.devsuperior.dscatalog.resources;
 
-import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +34,7 @@ public class ProductResource {
     @GetMapping(value = "/{id}")
     public ResponseEntity<ProductDTO> findById(@PathVariable Long id) {
         ProductDTO dto = service.findById(id);
-        return  ResponseEntity.ok().body(dto);
+        return ResponseEntity.ok().body(dto);
     }
 
     @PostMapping
@@ -44,6 +43,13 @@ public class ProductResource {
                 .buildAndExpand(dto.getId()).toUri();
         dto = service.insert(dto);
         return ResponseEntity.created(uri).body(dto);
+    }
+
+    @DeleteMapping(value = "/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id){
+        service.delete(id);
+        //codHttp 204 - void(sem retortO no corpO da req)
+        return ResponseEntity.noContent().build();
     }
 
 }
