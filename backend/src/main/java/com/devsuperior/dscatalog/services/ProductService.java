@@ -10,6 +10,7 @@ import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -36,14 +37,14 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
         Optional<Product> opt = repository.findById(id);
-        Product p = opt.orElseThrow(() -> new ResourcesNotFoundException("entity not found"));
+        Product p = opt.orElseThrow(() -> new ResourcesNotFoundException("Product not found"));
         return new ProductDTO(p, p.getCategories());
     }
 
     @Transactional
     public ProductDTO insert(ProductDTO dto){
         Product p = new Product();
-        copyDtoToEntity(dto, p);
+        copyDtoToEntity(dto,p);
         p = repository.save(p);
         return new ProductDTO(p, p.getCategories());
     }
@@ -57,24 +58,16 @@ public class ProductService {
             return new ProductDTO(product, product.getCategories());
         }
         catch (EntityNotFoundException e){
-            throw new ResourcesNotFoundException("resource Id:" + id + " not found");
+            throw new ResourcesNotFoundException("Product id: " + id + " not found");
         }
     }
 
-    @Transactional
     public void delete(Long id) {
-        try {
+
             Product product = repository.getOne(id);
             repository.delete(product);
-        }
-        catch (EntityNotFoundException e){
-            throw new ResourcesNotFoundException("resource Id:" + id + " not found");
-        }
-        catch (DataIntegrityViolationException e) {
-            throw new DataBaseException("Database integrity violation");
-        }
-    }
 
+    }
 
     private void copyDtoToEntity(ProductDTO dto, Product product) {
         product.setName(dto.getName());
@@ -85,8 +78,13 @@ public class ProductService {
 
         product.getCategories().clear();
         for (CategoryDTO c : dto.getCategories()) {
-            Category cat = categoryRepository.getOne(c.getId());
-            product.getCategories().add(cat);
+            try {
+                Category cat = categoryRepository.getOne(c.getId());
+                product.getCategories().add(cat);
+            }
+            catch (EntityNotFoundException e) {
+                throw new ResourcesNotFoundException("Category id: " + c.getId() + " not found");
+            }
         }
     }
 }

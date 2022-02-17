@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.resources.execeptions;
+package com.devsuperior.dscatalog.services.resources.execeptions;
 
 import java.time.Instant;
 

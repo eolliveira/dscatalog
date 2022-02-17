@@ -6,6 +6,7 @@ import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -24,13 +25,12 @@ public class CategoryService {
     public Page<CategoryDTO> findAll(Pageable pageable){
         Page<Category> list = repository.findAll(pageable);
         return list.map(CategoryDTO::new);
-        //return list.stream().map(c -> new CategoryDTO(c)).collect(Collectors.toList());
     }
 
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
        Optional<Category> opt = repository.findById(id);
-       Category cat = opt.orElseThrow(() -> new ResourcesNotFoundException("entity not found"));
+       Category cat = opt.orElseThrow(() -> new ResourcesNotFoundException("Resource id: " + id + " not found"));
         return new CategoryDTO(cat);
     }
 
@@ -51,21 +51,19 @@ public class CategoryService {
             return new CategoryDTO(category);
         }
         catch (EntityNotFoundException e){
-          throw new ResourcesNotFoundException("resource Id:" + id + " not found");
+          throw new ResourcesNotFoundException("Resource id: " + id + " not found");
         }
     }
 
-    @Transactional
     public void delete(Long id) {
         try {
-            Category category = repository.getOne(id);
-            repository.delete(category);
-        }
-        catch (EntityNotFoundException e){
-            throw new ResourcesNotFoundException("resource Id:" + id + " not found");
+            repository.deleteById(id);
         }
         catch (DataIntegrityViolationException e) {
             throw new DataBaseException("Database integrity violation");
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new DataBaseException("Resource id: " + id + " not found");
         }
     }
 }
