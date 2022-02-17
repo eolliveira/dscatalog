@@ -1,4 +1,5 @@
 package com.devsuperior.dscatalog.services;
+
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Category;
@@ -8,7 +9,6 @@ import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
-
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.data.domain.Page;
@@ -37,7 +37,7 @@ public class ProductService {
     @Transactional(readOnly = true)
     public ProductDTO findById(Long id){
         Optional<Product> opt = repository.findById(id);
-        Product p = opt.orElseThrow(() -> new ResourcesNotFoundException("Product not found"));
+        Product p = opt.orElseThrow(() -> new ResourcesNotFoundException("Product id: " + id + " not found"));
         return new ProductDTO(p, p.getCategories());
     }
 
@@ -60,12 +60,19 @@ public class ProductService {
         catch (EntityNotFoundException e){
             throw new ResourcesNotFoundException("Product id: " + id + " not found");
         }
+
     }
 
     public void delete(Long id) {
-
-            Product product = repository.getOne(id);
-            repository.delete(product);
+        try {
+            repository.deleteById(id);
+        }
+        catch (EmptyResultDataAccessException e) {
+            throw new ResourcesNotFoundException("Product id: " + id + " not found");
+        }
+        catch (DataIntegrityViolationException e) {
+            throw new DataBaseException("Database integrity violation");
+        }
 
     }
 

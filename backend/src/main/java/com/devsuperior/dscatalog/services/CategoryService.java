@@ -30,7 +30,7 @@ public class CategoryService {
     @Transactional(readOnly = true)
     public CategoryDTO findById(Long id){
        Optional<Category> opt = repository.findById(id);
-       Category cat = opt.orElseThrow(() -> new ResourcesNotFoundException("Resource id: " + id + " not found"));
+       Category cat = opt.orElseThrow(() -> new ResourcesNotFoundException("Category id: " + id + " not found"));
         return new CategoryDTO(cat);
     }
 
@@ -51,7 +51,7 @@ public class CategoryService {
             return new CategoryDTO(category);
         }
         catch (EntityNotFoundException e){
-          throw new ResourcesNotFoundException("Resource id: " + id + " not found");
+          throw new ResourcesNotFoundException("Category id: " + id + " not found");
         }
     }
 
@@ -63,7 +63,7 @@ public class CategoryService {
             throw new DataBaseException("Database integrity violation");
         }
         catch (EmptyResultDataAccessException e) {
-            throw new DataBaseException("Resource id: " + id + " not found");
+            throw new ResourcesNotFoundException("Category id: " + id + " not found");
         }
     }
 }
