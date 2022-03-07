@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.dao.EmptyResultDataAccessException;
 
-import java.time.Instant;
 import java.util.Optional;
 
 @DataJpaTest
@@ -30,7 +29,6 @@ public class ProductRepositoryTests {
     @Test
     public void findByIdShoulReturnOptionalNotEmptyWhenIdExists(){
         Optional<Product> p = repository.findById(existingId);
-        p.isEmpty();
 
         Assertions.assertFalse(p.isEmpty());
     }
@@ -38,12 +36,9 @@ public class ProductRepositoryTests {
     @Test
     public void findByIdShoulReturnOptionalEmptyWhenIdDoesNotExist(){
         Optional<Product> p = repository.findById(nonExistentId);
-        p.isEmpty();
 
         Assertions.assertTrue(p.isEmpty());
     }
-
-
 
     @Test
     public void saveShouldAutoIncrementIdWhenIdIsNull(){
@@ -67,8 +62,6 @@ public class ProductRepositoryTests {
 
     @Test
     public void deleteShouldThrowEmptyResultDataAccessExceptionWhenIdDoesNotExist(){
-        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> {
-            repository.deleteById(nonExistentId);
-        });
+        Assertions.assertThrows(EmptyResultDataAccessException.class, () -> repository.deleteById(nonExistentId));
     }
 }
