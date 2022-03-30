@@ -9,7 +9,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 public class AppConfig {
     @Configuration
     @EnableWebSecurity
-    public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    public static class SecurityConfig extends WebSecurityConfigurerAdapter {
 
         @Override
         public void configure(WebSecurity web) throws Exception {

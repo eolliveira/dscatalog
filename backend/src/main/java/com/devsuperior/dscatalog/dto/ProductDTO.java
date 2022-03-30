@@ -3,6 +3,10 @@ package com.devsuperior.dscatalog.dto;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 
+import javax.validation.constraints.AssertTrue;
+import javax.validation.constraints.DecimalMin;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.PastOrPresent;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
@@ -12,10 +16,17 @@ import java.util.Set;
 public class ProductDTO implements Serializable {
 
     private Long id;
+
+    @NotBlank(message = "Nome do produto não pode ser vazio")
     private String name;
     private String description;
+
+    @DecimalMin("0.01")
     private Double price;
+
     private String imgUrl;
+
+    @PastOrPresent
     private Instant date;
 
     private final List<CategoryDTO> categories = new ArrayList<>();

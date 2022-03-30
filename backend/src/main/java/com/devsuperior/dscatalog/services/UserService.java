@@ -5,8 +5,8 @@ import com.devsuperior.dscatalog.dto.UserDTO;
 import com.devsuperior.dscatalog.dto.UserInsertDTO;
 import com.devsuperior.dscatalog.entities.Role;
 import com.devsuperior.dscatalog.entities.User;
-import com.devsuperior.dscatalog.repositories.RoleRepository;
-import com.devsuperior.dscatalog.repositories.UserRepository;
+import com.devsuperior.dscatalog.entities.repositories.RoleRepository;
+import com.devsuperior.dscatalog.entities.repositories.UserRepository;
 import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,11 +56,10 @@ public class UserService {
     }
 
     @Transactional
-    public UserDTO update(Long id, UserInsertDTO dto) {
+    public UserDTO update(Long id, UserDTO dto) {
         try {
             User user = repository.getOne(id);
             copyDtoToEntity(dto, user);
-            user.setPassword(passwordEncoder.encode(dto.getPassword()));
             user = repository.save(user);
             return new UserDTO(user);
         }
@@ -82,7 +81,7 @@ public class UserService {
         }
     }
 
-    private void copyDtoToEntity(UserInsertDTO dto, User entity) {
+    private void copyDtoToEntity(UserDTO dto, User entity) {
         entity.setFirstName(dto.getFirstName());
         entity.setLastName(dto.getLastName());
         entity.setEmail(dto.getEmail());

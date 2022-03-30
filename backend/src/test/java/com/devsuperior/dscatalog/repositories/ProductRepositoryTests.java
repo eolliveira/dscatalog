@@ -1,6 +1,7 @@
 package com.devsuperior.dscatalog.repositories;
 
 import com.devsuperior.dscatalog.entities.Product;
+import com.devsuperior.dscatalog.entities.repositories.ProductRepository;
 import com.devsuperior.dscatalog.tests.Factory;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;

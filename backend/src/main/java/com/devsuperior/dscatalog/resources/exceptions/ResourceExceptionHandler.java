@@ -4,6 +4,7 @@ import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
@@ -31,7 +32,19 @@ public class ResourceExceptionHandler {
         StandardError error = new StandardError();
         error.setTimestamp(Instant.now());
         error.setStatus(httpStatus);
-        error.setError("DataBase exception");
+        error.setError("Database exception");
+        error.setMessage(e.getMessage());
+        error.setPath(request.getRequestURI());
+        return ResponseEntity.status(httpStatus).body(error);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<StandardError> arguments(MethodArgumentNotValidException e, HttpServletRequest request) {
+        int httpStatus = HttpStatus.UNPROCESSABLE_ENTITY.value();
+        StandardError error = new StandardError();
+        error.setTimestamp(Instant.now());
+        error.setStatus(httpStatus);
+        error.setError("Arguments exception");
         error.setMessage(e.getMessage());
         error.setPath(request.getRequestURI());
         return ResponseEntity.status(httpStatus).body(error);

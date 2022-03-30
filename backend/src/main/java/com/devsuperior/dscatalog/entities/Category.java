@@ -19,7 +19,7 @@ public class Category implements Serializable {
     private String name;
 
     @ManyToMany(mappedBy = "categories")
-    private Set<Product> products = new HashSet<>();
+    private final Set<Product> products = new HashSet<>();
 
     @Column(columnDefinition = "TIMESTAMP WITHOUT TIME ZONE")
     private Instant createdAt;

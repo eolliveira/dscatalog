@@ -1,7 +1,7 @@
 package com.devsuperior.dscatalog.services;
 import com.devsuperior.dscatalog.dto.CategoryDTO;
 import com.devsuperior.dscatalog.entities.Category;
-import com.devsuperior.dscatalog.repositories.CategoryRepository;
+import com.devsuperior.dscatalog.entities.repositories.CategoryRepository;
 import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
