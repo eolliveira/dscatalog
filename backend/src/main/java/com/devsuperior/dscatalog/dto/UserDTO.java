@@ -1,7 +1,6 @@
 package com.devsuperior.dscatalog.dto;
 
 import com.devsuperior.dscatalog.entities.User;
-import com.devsuperior.dscatalog.services.validation.UserInsertValid;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -19,7 +18,7 @@ public class UserDTO implements Serializable {
 
     private String lastName;
 
-    @Email(message = "Entre com umail válido")
+    @Email(message = "Entre com um email válido")
     private String email;
 
     private final Set<RoleDTO> roles = new HashSet<>();
