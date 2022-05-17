@@ -1,9 +1,8 @@
-package com.devsuperior.dscatalog.dto;
+package com.devsuperior.dscatalog.components.dto;
 
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 
-import javax.validation.constraints.AssertTrue;
 import javax.validation.constraints.DecimalMin;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.PastOrPresent;

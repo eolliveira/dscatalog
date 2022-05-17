@@ -1,4 +1,4 @@
-package com.devsuperior.dscatalog.dto;
+package com.devsuperior.dscatalog.components.dto;
 
 import com.devsuperior.dscatalog.services.validation.UserInsertValid;
 
