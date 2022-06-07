@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.resources;
 
-import com.devsuperior.dscatalog.components.dto.ProductDTO;
+import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.services.ProductService;
 import com.devsuperior.dscatalog.services.exceptions.DataBaseException;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
@@ -56,7 +56,7 @@ public class ProductResourceTests {
         nonExistingId = 2L;
         dependentid = 3L;
 
-        when(service.findAll(any())).thenReturn(page);
+        //when(service.find(any())).thenReturn(page);
 
         when(service.findById(existingId)).thenReturn(productDTO);
         when(service.findById(nonExistingId)).thenThrow(ResourcesNotFoundException.class);

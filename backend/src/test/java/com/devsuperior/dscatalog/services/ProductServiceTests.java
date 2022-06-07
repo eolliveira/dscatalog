@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
-import com.devsuperior.dscatalog.components.dto.ProductDTO;
+import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.entities.Category;
 import com.devsuperior.dscatalog.entities.Product;
 import com.devsuperior.dscatalog.repositories.CategoryRepository;
@@ -76,16 +76,19 @@ public class ProductServiceTests {
         Mockito.doThrow(DataIntegrityViolationException.class).when(productRepository).deleteById(dependentId);
     }
 
+
     @Test
     public void findAllShouldReturnPage(){
         Pageable pageable = PageRequest.of(0, 10);
 
-        Page<ProductDTO> response = service.findAll(pageable);
+        Page<ProductDTO> response = service.findAll(existingId, null, pageable);
 
         Assertions.assertNotNull(response);
         Mockito.verify(productRepository).findAll(pageable);
 
     }
+
+
 
     @Test
     public void findByIdShouldReturnProductWhenIdExixts(){

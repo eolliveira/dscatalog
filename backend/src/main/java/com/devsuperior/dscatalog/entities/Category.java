@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.entities;
 
-import com.devsuperior.dscatalog.components.dto.CategoryDTO;
+import com.devsuperior.dscatalog.dto.CategoryDTO;
 
 import javax.persistence.*;
 import java.io.Serializable;

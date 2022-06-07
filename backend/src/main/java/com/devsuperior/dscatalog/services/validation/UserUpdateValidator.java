@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.services.validation;
 
-import com.devsuperior.dscatalog.components.dto.UserUpdateDTO;
+import com.devsuperior.dscatalog.dto.UserUpdateDTO;
 import com.devsuperior.dscatalog.entities.User;
 import com.devsuperior.dscatalog.repositories.UserRepository;
 import com.devsuperior.dscatalog.resources.exceptions.FieldMessage;

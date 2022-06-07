@@ -1,6 +1,6 @@
 package com.devsuperior.dscatalog.services;
 
-import com.devsuperior.dscatalog.components.dto.ProductDTO;
+import com.devsuperior.dscatalog.dto.ProductDTO;
 import com.devsuperior.dscatalog.repositories.ProductRepository;
 import com.devsuperior.dscatalog.services.exceptions.ResourcesNotFoundException;
 import org.junit.jupiter.api.Assertions;
@@ -52,7 +52,8 @@ public class ProductServiceIT {
 
         PageRequest pageable = PageRequest.of(0, 10);
 
-        Page<ProductDTO> response = service.findAll(pageable);
+        /////REVER
+        Page<ProductDTO> response = service.findAll(0L,null, pageable);
 
         Assertions.assertFalse(response.isEmpty());
         Assertions.assertEquals(0, response.getNumber());
@@ -66,7 +67,9 @@ public class ProductServiceIT {
 
         PageRequest pageable = PageRequest.of(50, 10);
 
-        Page<ProductDTO> response = service.findAll(pageable);
+
+        ////REVER
+        Page<ProductDTO> response = service.findAll(0L , null, pageable);
 
         Assertions.assertTrue(response.isEmpty());
 
@@ -77,7 +80,11 @@ public class ProductServiceIT {
 
         PageRequest pageable = PageRequest.of(0, 10, Sort.by("name"));
 
-        Page<ProductDTO> response = service.findAll(pageable);
+
+
+
+        //////REVER
+        Page<ProductDTO> response = service.findAll(0L, null, pageable);
 
         Assertions.assertFalse(response.isEmpty());
         Assertions.assertEquals("Macbook Pro", response.getContent().get(0).getName());
