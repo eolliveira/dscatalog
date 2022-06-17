@@ -29,4 +29,5 @@ public class AppConfig {
         tokenConverter.setSigningKey(JWT_SECRET);
         return tokenConverter;
     }
+
 }
