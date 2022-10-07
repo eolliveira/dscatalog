@@ -21,6 +21,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    //INFORMAR METODO DE CRIPTOGRAFIA E SERVICO DE ALTENTICACAO
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder);
@@ -31,6 +32,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         web.ignoring().antMatchers("/actuator/**");
     }
 
+    //bean que efetuara a autenticação
     @Override
     @Bean
     protected AuthenticationManager authenticationManager() throws Exception {

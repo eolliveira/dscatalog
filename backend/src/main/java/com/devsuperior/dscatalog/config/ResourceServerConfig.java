@@ -22,6 +22,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableResourceServer
+//configura servidor recursos (quais recursos voce pode acessar)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
 
     @Autowired
@@ -40,6 +41,10 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(tokenStore);
     }
+
+    //401 - não autorizado
+
+    //403 - sem acesso
 
     @Override
     public void configure(HttpSecurity http) throws Exception {

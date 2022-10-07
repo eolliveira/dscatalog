@@ -23,6 +23,7 @@ public class AppConfig {
         return new JwtTokenStore(accessTokenConverter());
     }
 
+    //CONVERTE O TOKEN E ADICIONA CREDENCIAIS DO CLIENTE
     @Bean
     public JwtAccessTokenConverter accessTokenConverter() {
         JwtAccessTokenConverter tokenConverter = new JwtAccessTokenConverter();

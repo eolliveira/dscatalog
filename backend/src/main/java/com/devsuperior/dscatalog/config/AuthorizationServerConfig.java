@@ -19,6 +19,7 @@ import java.util.Arrays;
 
 @Configuration
 @EnableAuthorizationServer
+//configura servidor de autenticação (quem é voce para o sistema)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Value("${security.oauth2.client.client-id}")
@@ -51,6 +52,7 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 
+
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
@@ -63,6 +65,8 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
 
     @Override
     public void configure(AuthorizationServerEndpointsConfigurer endpoints) throws Exception {
+
+        //adiciona dados do usuário ao token
         TokenEnhancerChain chain = new TokenEnhancerChain();
         chain.setTokenEnhancers(Arrays.asList(accessTokenConverter, tokenEnhancer));
 

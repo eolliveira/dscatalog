@@ -7,10 +7,12 @@ import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
+
 @Constraint(validatedBy = UserUpdateValidator.class)
 @Target({ ElementType.TYPE })
 @Retention(RetentionPolicy.RUNTIME)
 
+//cria uma anotação para validar o usuario
 public @interface UserUpdateValid {
     String message() default "Validation error";
 

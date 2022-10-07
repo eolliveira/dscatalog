@@ -22,7 +22,6 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
     @Autowired
     private HttpServletRequest request;
 
-
     @Override
     public void initialize(UserUpdateValid ann) {
     }
@@ -30,7 +29,7 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
     @Override
     public boolean isValid(UserUpdateDTO dto, ConstraintValidatorContext context) {
 
-        //variaveis da URL
+        //captura parametro(id), da URL
         var uriVars = (Map<String, String>) request.getAttribute(HandlerMapping.URI_TEMPLATE_VARIABLES_ATTRIBUTE);
         long userId = Long.parseLong(uriVars.get("id"));
 
@@ -39,7 +38,7 @@ public class UserUpdateValidator implements ConstraintValidator<UserUpdateValid,
         User user = repository.findByEmail(dto.getEmail());
 
         if (user != null && userId != user.getId()) {
-            list.add(new FieldMessage("email", "Email ja existe"));
+            list.add(new FieldMessage("email", "Email ja esta sendo usado por outro usuário"));
         }
 
         //adiciona os erros customizados de "list", a lista de erros interna do ConstrantViolation
