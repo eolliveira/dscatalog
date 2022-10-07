@@ -105,7 +105,7 @@ public class UserService implements UserDetailsService {
         }
     }
 
-    //METODO DE ALTENTICAÇÃO
+    //METODO DE AUTENTICAÇÃO
     @Override
     public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
         User user = repository.findByEmail(email);
