@@ -17,20 +17,19 @@ import org.springframework.security.oauth2.provider.token.store.JwtTokenStore;
 
 import java.util.Arrays;
 
+//configura servidor de autenticação (quem é voce para o sistema)
 @Configuration
 @EnableAuthorizationServer
-//configura servidor de autenticação (quem é voce para o sistema)
 public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdapter {
 
     @Value("${security.oauth2.client.client-id}")
-    private String CLIENT_ID;
+    private String clientId;
 
     @Value("${security.oauth2.client.client-secret}")
-    private String CLIENT_SECRET;
+    private String clientSecret;
 
     @Value("${jwt.duration}")
-    private Integer JWT_DURATION;
-
+    private Integer jwtDuration;
 
     @Autowired
     private BCryptPasswordEncoder passwordEncoder;
@@ -52,15 +51,14 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
         security.tokenKeyAccess("permitAll()").checkTokenAccess("isAuthenticated()");
     }
 
-
     @Override
     public void configure(ClientDetailsServiceConfigurer clients) throws Exception {
         clients.inMemory()
-                . withClient(CLIENT_ID)
-                .secret(passwordEncoder.encode(CLIENT_SECRET))
-                .scopes("read", "white")
+                .withClient(clientId)
+                .secret(passwordEncoder.encode(clientSecret))
+                .scopes("read", "write")
                 .authorizedGrantTypes("password")
-                .accessTokenValiditySeconds(JWT_DURATION);
+                .accessTokenValiditySeconds(jwtDuration);
     }
 
     @Override
@@ -76,3 +74,4 @@ public class AuthorizationServerConfig extends AuthorizationServerConfigurerAdap
                 .tokenEnhancer(chain);
     }
 }
+

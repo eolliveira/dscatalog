@@ -2,6 +2,7 @@ package com.devsuperior.dscatalog.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -20,16 +21,24 @@ import org.springframework.web.filter.CorsFilter;
 
 import java.util.Arrays;
 
+//configura servidor recursos (quais recursos voce pode acessar)
 @Configuration
 @EnableResourceServer
-//configura servidor recursos (quais recursos voce pode acessar)
 public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
+
+    @Value("${cors.origins}")
+    private String corsOrigins;
 
     @Autowired
     private Environment env;
 
     @Autowired
     private JwtTokenStore tokenStore;
+
+
+    //401 - não autorizado
+
+    //403 - sem acesso
 
     private static final String[] PUBLIC = {"/oauth/token", "/h2-console/**"};
 
@@ -41,10 +50,6 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {
         resources.tokenStore(tokenStore);
     }
-
-    //401 - não autorizado
-
-    //403 - sem acesso
 
     @Override
     public void configure(HttpSecurity http) throws Exception {
@@ -61,13 +66,17 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
                 .antMatchers(ADMIN).hasRole("ADMIN")
                 .anyRequest().authenticated();
 
-                http.cors().configurationSource(corsConfigurationSource());
+        http.cors().configurationSource(corsConfigurationSource());
+
     }
 
     @Bean
-    public CorsConfigurationSource corsConfigurationSource() {
+    CorsConfigurationSource corsConfigurationSource() {
+
+        String[] origins = corsOrigins.split(",");
+
         CorsConfiguration corsConfig = new CorsConfiguration();
-        corsConfig.setAllowedOriginPatterns(Arrays.asList("*"));
+        corsConfig.setAllowedOriginPatterns(Arrays.asList(origins));
         corsConfig.setAllowedMethods(Arrays.asList("POST", "GET", "PUT", "DELETE", "PATCH"));
         corsConfig.setAllowCredentials(true);
         corsConfig.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
@@ -78,11 +87,14 @@ public class ResourceServerConfig extends ResourceServerConfigurerAdapter {
     }
 
     @Bean
-    public FilterRegistrationBean<CorsFilter> corsFilter() {
+    FilterRegistrationBean<CorsFilter> corsFilter() {
         FilterRegistrationBean<CorsFilter> bean
                 = new FilterRegistrationBean<>(new CorsFilter(corsConfigurationSource()));
         bean.setOrder(Ordered.HIGHEST_PRECEDENCE);
         return bean;
     }
-
 }
+
+
+
+
